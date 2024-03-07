@@ -2,7 +2,6 @@
 
 import { Configuration, OpenAIApi } from "openai";
 import { getApiKey, getPromptOptions } from "./config.js";
-import { getConfig } from "./config_storage.js";
 
 const configuration = new Configuration({
   apiKey: await getApiKey(),
@@ -10,22 +9,20 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration);
 
 export class ChatGPTClient {
-  async getAnswer(question: string): Promise<string> {
+  async getAnswer(content: string): Promise<string> {
     const { model, maxTokens, temperature } = await getPromptOptions();
 
     try {
-      const result = await openai.createCompletion({
+      const result = await openai.createChatCompletion({
         model,
-        prompt: question,
+        messages: [{ role: "user", content }],
         max_tokens: maxTokens,
         temperature,
       });
-      return result.data.choices[0].text;
+      return result.data.choices[0].message.content;
     } catch (e) {
       console.error(e?.response ?? e);
       throw e;
     }
-
-    // @ts-ignore
   }
 }

@@ -1,6 +1,9 @@
 import { homedir } from "os";
 import { readFileSync, writeFileSync, existsSync } from "fs";
-import { defaultPromptTemplate } from "./template.js";
+import {
+  defaultPromptTemplate,
+  defaultMessageEnhancerTemplate,
+} from "./template.js";
 
 const GLOBAL_CONFIG_PATH = `${homedir()}/.commitgpt.json`;
 const LOCAL_CONFIG_PATH = `${process.cwd()}/.commitgpt.json`;
@@ -17,7 +20,7 @@ interface Config {
 }
 
 const defaultConfig = {
-  model: "text-davinci-003",
+  model: "gpt-3.5-turbo",
   temperature: 0.5,
   maxTokens: 2048,
 } satisfies Config;
@@ -74,6 +77,10 @@ export function loadPromptTemplate(): string {
   }
 
   return defaultPromptTemplate;
+}
+
+export function loadPromptMessageEnhancerTemplate(): string {
+  return defaultMessageEnhancerTemplate;
 }
 
 export function getConfig<T>(key: string): T {
