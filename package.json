@@ -7,7 +7,8 @@
   "bin": "dist/index.js",
   "scripts": {
     "build": "tsc",
-    "start": "ts-node --esm index.ts",
+    "start": "npx tsx index.ts",
+    "start:enhancer": "npx tsx enhancer.ts",
     "prepublishOnly": "npm run build"
   },
   "repository": {
@@ -30,6 +31,7 @@
     "yargs-parser": "^21.1.1"
   },
   "devDependencies": {
-    "ts-node": "^10.9.1"
+    "ts-node": "^10.9.2",
+    "tsx": "^4.7.1"
   }
 }
